@@ -1,5 +1,10 @@
+#!/usr/bin/env python3
+
 from negamax import Ai
 from game.tictactoe import TicTacToe, Piece
+
+
+PLAYER_MOVE_SEP = ','
 
 
 def main(game, ai):
@@ -7,10 +12,10 @@ def main(game, ai):
     Main game loop
     """
     player_turn = True
-    player_piece = ai.piece.other()
+    player_piece = ai._player.other()
 
     while True:
-        print(game)
+        print(f'\n{game}')
         if player_turn:
             if not player_move(game, player_piece):
                 break
@@ -24,7 +29,7 @@ def main(game, ai):
         
         player_turn = not player_turn
 
-    print(game)
+    print(f'\n{game}')
 
 
 def player_move(game, piece):
@@ -32,7 +37,7 @@ def player_move(game, piece):
     Get player input from command line for player move
     """
     player_input = input('Player move: ')
-    (x, y) = map(lambda s: int(s.strip()), player_input.split(','))
+    (x, y) = map(lambda s: int(s.strip()), player_input.split(PLAYER_MOVE_SEP))
 
     game.move(piece, (x, y))
 
@@ -49,16 +54,15 @@ def ai_move(game, ai):
     """
     print("AI's turn")
     ai.negamax(game)
-    print('AI moved!')
+    move = ai.get_best_move()
 
-    if ai.best_move is None:
+    if move is None:
         print('AI Forfeits!')
         return False
-    
-    move = ai.get_best_move()
-    game.move(ai.piece, move)
+    else:
+        game.move(ai._player, move)
 
-    if game.is_winner(ai.piece):
+    if game.is_winner(ai._player):
         print('AI wins!')
         return False
 

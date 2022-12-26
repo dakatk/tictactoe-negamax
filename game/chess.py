@@ -1,20 +1,13 @@
-from collections.abc import Generator
-from abc import ABC, abstractmethod
-from enum import Enum
+from game_abc import Game
 
 
-class Game(ABC):
-    """
-    Base class for game logic
-    """
-    @abstractmethod
+class Chess(Game):
     def allowed_moves(self, player: Enum) -> Generator:
         """
         Get all allowed moves for `player`
         """
         pass
 
-    @abstractmethod
     def move(self, player: Enum, move_pos: object, enqueue=False):
         """
         Makes move for `player` at position `move_pos`
@@ -22,36 +15,32 @@ class Game(ABC):
         """
         pass
 
-    @abstractmethod
     def undo_move(self):
         """
         Takes back most recent move in queue
         """
         pass
 
-    @abstractmethod
     def other(self, player: Enum) -> Enum:
         """
         Inverse player from `player`
         """
         pass
 
-    @abstractmethod
     def score(self, player: Enum, depth: int) -> float:
         """
         Score for `player` at search depth `depth` for current game state
         """
         pass
 
-    @abstractmethod
     def is_over(self) -> bool:
         """
         Checks if game is at a terminal state
         """
         pass
 
-    @abstractmethod
     def is_winner(self, player: Enum) -> bool:
         """
         Checks if `player` has won
         """
+        pass
