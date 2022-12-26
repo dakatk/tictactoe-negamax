@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from collections import deque
 from enum import Enum
 
 from game.game_abc import Game
@@ -34,10 +33,14 @@ class Ai(object):
 
         for move in game.allowed_moves(player):
             game.move(player, move, enqueue=True)
+            next_player = game.other(player)
 
-            negamax_value = -self._negamax_rec(game, depth + 1, -beta, -alpha, game.other(player))
+            if game.can_win(next_player):
+                negamax_value = -1000
+            else:
+                negamax_value = -self._negamax_rec(game, depth + 1, -beta, -alpha, next_player)
+        
             value = max(value, negamax_value)
-
             game.undo_move()
 
             if depth == 0:
@@ -68,7 +71,7 @@ class Ai(object):
         return max(self._best_moves, key=self._best_moves.get)
 
     @property
-    def player():
+    def player(self):
         return self._player
 
 

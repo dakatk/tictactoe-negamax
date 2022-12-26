@@ -100,6 +100,33 @@ class TicTacToe(Game):
 
         self._board[move[0]][move[1]] = player
 
+    def can_win(self, player: Enum):
+        """
+        Checks if `player` is able to win in one move 
+        with the current board state
+
+        >>> game = TicTacToe()
+        >>> game._board = [[Piece.X, Piece.X, Piece.S], [Piece.S, Piece.S, Piece.S], [Piece.S, Piece.S, Piece.S]]
+        >>> game.can_win(Piece.X)
+        True
+        >>> game._board = [[Piece.X, Piece.X, Piece.S], [Piece.S, Piece.S, Piece.S], [Piece.S, Piece.S, Piece.S]]
+        >>> game.can_win(Piece.O)
+        False
+        """
+        for (i, row) in enumerate(self._board):
+            for (j, col) in enumerate(row):
+                if col != Piece.S:
+                    continue
+
+                self._board[i][j] = player
+                winner = self.is_winner(player)
+                self._board[i][j] = Piece.S
+
+                if winner:
+                    return True
+
+        return False
+
     def undo_move(self):
         """
         Takes back most recent move in queue

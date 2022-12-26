@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
-from negamax import Ai
+from ai.negamax import Ai
 from game.tictactoe import TicTacToe, Piece
+
+#from game.chess import Chess
 
 
 PLAYER_MOVE_SEP = ','
@@ -12,7 +14,7 @@ def main(game, ai):
     Main game loop
     """
     player_turn = True
-    player_piece = ai._player.other()
+    player_piece = ai.player.other()
 
     while True:
         print(f'\n{game}')
@@ -60,9 +62,9 @@ def ai_move(game, ai):
         print('AI Forfeits!')
         return False
     else:
-        game.move(ai._player, move)
+        game.move(ai.player, move)
 
-    if game.is_winner(ai._player):
+    if game.is_winner(ai.player):
         print('AI wins!')
         return False
 

@@ -23,6 +23,14 @@ class Game(ABC):
         pass
 
     @abstractmethod
+    def can_win(self, player: Enum):
+        """
+        Checks if `player` is able to win in one move 
+        with the current board state
+        """
+        pass
+
+    @abstractmethod
     def undo_move(self):
         """
         Takes back most recent move in queue
