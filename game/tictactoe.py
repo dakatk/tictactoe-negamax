@@ -201,8 +201,8 @@ class TicTacToe(Game):
         >>> game.is_over()
         False
         """
-        allowed_moves = len(list(self.allowed_moves(None)))
-        return self.is_winner(Piece.X) or self.is_winner(Piece.O) or allowed_moves == 0
+        spaces_left = any([any([col == Piece.S for col in row]) for row in self._board])
+        return self.is_winner(Piece.X) or self.is_winner(Piece.O) or not spaces_left
 
     def is_winner(self, player: Piece) -> bool:
         """
@@ -241,8 +241,10 @@ class TicTacToe(Game):
         if player == None or player == Piece.S:
             return False
 
+        magic_number = player.value * 3
+        
         for win_check in self._win_checks:
-            if all([self._board[i][j] == player for (i, j) in win_check]):
+            if sum((self._board[i][j].value for (i, j) in win_check)) == magic_number:
                 return True
 
         return False

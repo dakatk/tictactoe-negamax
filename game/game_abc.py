@@ -63,3 +63,4 @@ class Game(ABC):
         """
         Checks if `player` has won
         """
+        pass
